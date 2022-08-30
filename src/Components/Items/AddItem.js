@@ -1,9 +1,19 @@
 import React from "react";
 import BasicFormTemplet from '../Forms/BasicFormTemplet.js';
+import Modal from "../Modal/Modal.js";
 
+import { useSelector, useDispatch } from "react-redux";
+import { setItemData, fetchData } from "../../Redux/ItemSlice.js";
 
+const AddItem=({onClose})=>{
+  const dispatch = useDispatch();
 
-const AddItem=({addItem, setAddItem})=>{
+  const handleSubmit = (payload) => {
+    console.log(payload);
+    dispatch(setItemData(payload));
+    onClose();
+    window.location = "/items";
+  };
     const validation=(value, field)=>{
         if(field=='name'){
             if(value.length==0) return true;
@@ -15,43 +25,44 @@ const AddItem=({addItem, setAddItem})=>{
         return true;
 
     }
-    const handleSubmit = (payload) => {
-        console.log("Item Info: ", payload);
-      };
+    
 
     const fields = [
-        {
-          name: "name",
-          type: "text",
-          title: "Name",
-          value:"",
-          placeholder: "Please enter Item Name"
-        },
-        {
-          name: "price",
-          type: "number",
-          title: "Price",
-          value:"",
-          placeholder: "Please enter Price"
-        },
-        {
-          name: "discription",
-          type: "textarea",
-          title: "Discription",
-          value:"",
-          placeholder: "Please enter Discription of the Item"
-        }
-      ];
+      {
+        name: "Item_Name",
+        type: "text",
+        title: "Name",
+        value: "",
+        placeholder: "Please enter Item Name",
+      },
+      {
+        name: "Price",
+        type: "number",
+        title: "Price",
+        value: "",
+        placeholder: "Please enter Price",
+      },
+      {
+        name: "Item_Description",
+        type: "textarea",
+        title: "Discription",
+        value: "",
+        placeholder: "Please enter Discription of the Item",
+      },
+    ];
 
 
 
     return (
-        addItem?<BasicFormTemplet   onSubmit={handleSubmit}
-                                    fields={fields}
-                                    trigger={addItem} 
-                                    setTrigger={setAddItem}
-                                    title={"NEW ITEM"}
-                                    validation={validation}/>:""
+      <Modal>
+        <BasicFormTemplet
+          onSubmit={handleSubmit}
+          fields={fields}
+          title={"NEW Item"}
+          validation={validation}
+          onClose={onClose}
+        />
+    </Modal>
     );
 }
 

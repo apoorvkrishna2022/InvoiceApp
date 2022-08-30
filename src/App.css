@@ -42,20 +42,3 @@ table {
 	border-spacing: 0;
 }
 
-
-.main-screen{
-    display: flex;
-    min-height: 100vh;
-    background-color:#FAFBFF;
-    
-}
-.left-screen{
-    min-height: 100vh;
-    width: 20%;
-    /* border: 4px solid white; */
-}
-.right-screen{
-    min-height: 100vh;
-    width:80%;
-    /* border: 4px solid white; */
-}

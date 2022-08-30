@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import BasicTemplet from '../BasicTemplet/BasicTemplet.js';
 import List from "../List/List.js";
 import Button from "../Button/Button.js";
-import AddInvoice from "./AddInvoice.js";
+import AddInvoice from "./AddInvoice/AddInvoice.js";
 
 
 const invoiceData=[

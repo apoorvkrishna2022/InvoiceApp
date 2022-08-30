@@ -1,52 +1,51 @@
-import React ,{useState, useEffect} from 'react';
-import axios from 'axios';
-
-import BasicTemplet from '../BasicTemplet/BasicTemplet.js';
+import React, { useState, useContext, useEffect } from "react";
+import BasicTemplet from "../BasicTemplet/BasicTemplet.js";
 import List from "../List/List.js";
 import Button from "../Button/Button.js";
 import AddCustomer from "./AddCustomer.js";
+// import { CustomerContext } from "../../Context/CustomerContext.js";
+import { cusTableField } from "../../globalVariables.js";
+
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCustomerData } from "../../Redux/CustomerSlice.js";
 
 
 
+const Customer = () => {
 
+  const customer = useSelector((state) => state.customer);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCustomerData());
+  }, []);
+  
+  
+  const [addCustomer, setAddCustomer] = useState(false);
+ 
+  const clickAdd = (e) => {
+    setAddCustomer(true);
+  };
+  const clickClose=(e)=>{
+    setAddCustomer(false);
+  };
+ 
+  return (
+    <>
+      <BasicTemplet
+        title={"Customers"}
+        btn={<Button onClick={clickAdd} button_name={"+ ADD Customer"} />}
+      >
+        {customer.loading && <div>Loading...</div>}
+        {!customer.loading && customer.error ? (
+          <div>Error: {customer.error}</div>
+        ) : null}
+        {!customer.loading && customer.users.length ? (
+          <List data={customer.users} field={cusTableField} />
+        ) : null}
+      </BasicTemplet>
 
-let customerData=[
-    {name:"apoorv", phone:"1234566", email:"apoorv$f", created_on:"12/23/2022"},
-    {name:"apoorv", phone:"1234566", email:"apoorv$f", created_on:"12/23/2022"},
-    {name:"apoorv", phone:"1234566", email:"apoorv$f", created_on:"12/23/2022"},
-    {name:"apoorv", phone:"1234566", email:"apoorv$f", created_on:"12/23/2022"}
-];
-const customerField=['NAME', 'PHONE', 'EMAIL', 'CREATED ON'];
-
-
-const Customer=()=>{
-    const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
-    const [customerData1, setPost] = useState(null);
-
-    useEffect(() => {
-        axios.get(baseURL).then((response) => {
-        setPost(response.data);
-        });
-    }, []);
-    
-    
-    const [addCustomer, setAddCustomer]=useState(false);
-    const clickAdd=(e)=>{
-        console.log()
-        setAddCustomer(true);
-    }
-    return (
-        <>
-            <BasicTemplet title={"Customers"} btn={<Button onClick={clickAdd} button_name={"+ ADD Customer"}/>}>
-                <List data={customerData} field={customerField}/>
-            </BasicTemplet>
-
-            <AddCustomer addCustomer={addCustomer}  setAddCustomer={setAddCustomer}/>
-
-
-        </>
-            
-            );
-
-}
+      {addCustomer ? <AddCustomer onClose={clickClose} /> : ""}
+    </>
+  ); 
+};
 export default Customer;

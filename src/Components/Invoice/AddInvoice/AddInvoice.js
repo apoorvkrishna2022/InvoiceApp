@@ -1,5 +1,5 @@
 import React from "react";
-import InvoiceForm from "../Forms/InvoiceForm.js"
+import InvoiceForm from "../../Forms/InvoiceForm.js"
 
 
 const AddInvoice=({addInvoice, setTrigger})=>{

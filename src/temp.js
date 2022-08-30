@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormInput from "../Utils/FormInput";
 import { useNavigate } from "react-router-dom";
+import TextArea from "../Utils/TextArea";
+import Label from "../Utils/Label";
 ​
-const CustomerForm = () => {
+const ItemForm = () => {
   const [inputValue, setInputValue] = useState({
-    name: "",
-    email: "",
-    phone_number: "",
+    Item_Name: "",
+    Item_Description: "",
+    Price: "",
   });
   const [errors, setErrors] = useState({
-    Name: "",
-    Phone: "",
-    Email: "",
+    Item_Name: "",
+    Description: "",
+    Price: null,
   });
+  const { Item_Name, Item_Description, Price } = inputValue;
   const navigate = useNavigate();
-  const { name, email, phone_number } = inputValue;
-  const url = "http://localhost:8080/v1/customer/add";
+  const url = "http://localhost:8080/v1/item/add";
 ​
   const handleChange = (type, e) => {
     const { value } = e.target;
@@ -40,95 +42,71 @@ const CustomerForm = () => {
       }));
     }
   };
-​
   const handleSubmit = (event) => {
     event.preventDefault();
+​
     fetch(url, {
       method: "POST",
       body: JSON.stringify(inputValue),
-    })
-      .then(async (response) => {
-        const x = await response.json();
-        console.log(x, response);
-        // return x;
-        if (response.status !== 200) {
-          throw new Error(x.message);
-        } else {
-          return x;
-        }
-      })
-      .then((json) => {
-        alert("Customer Added Successfully");
-        navigate("/customer");
-      })
-      .catch((error) => {
-        console.table(error);
-      });
+    }).then((response) => response.json());
+​
+    // alert("Item Added Successfully");
+    navigate("/item");
   };
 ​
   return (
     <div className="form-container">
-      <div className="title">New Customer</div>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="input-container customer-input-container">
-          <div className="lable-input">
+      <div className="title">New Item</div>
+      <form className="form item-form" onSubmit={handleSubmit}>
+        <div className="input-container label-and-error">
+          <div className="lable-input ">
             <FormInput
               type="text"
-              value={name}
-              placeholder="Customer Name"
+              value={Item_Name}
               label="Name"
               name="name"
-              onChange={handleChange.bind(null, "name")}
+              onChange={handleChange.bind(null, "Item_Name")}
               onBlur={handleBlur.bind(null, "Name")} //change the name of handleBlur
             />
-            <div>
-              {errors.Name && (
-                <div className="customer-error">{errors.Name}</div>
-              )}
-            </div>
-          </div>
-          <div className="lable-input  ic1">
-            <FormInput
-              type="text"
-              value={phone_number}
-              placeholder="Phone Number"
-              label="Phone"
-              name="phoneNumber"
-              onChange={handleChange.bind(null, "phone_number")}
-              onBlur={handleBlur.bind(null, "Phone")} //change the name of handleBlur
-            />
-            <div>
-              {errors.Phone && (
-                <div className="customer-error">{errors.Phone}</div>
-              )}
-            </div>
+            {errors.Name && <div className="error">{errors.Name}</div>}
           </div>
         </div>
-        <div className="input-container customer-input-container">
+        <div className="input-container label-and-error">
           <div className="lable-input">
             <FormInput
               type="text"
-              value={email}
-              placeholder="Email"
-              label="Email"
-              name="email"
-              onChange={handleChange.bind(null, "email")}
-              onBlur={handleBlur.bind(null, "Email")} //change the name of handleBlur
+              value={Price}
+              label="Price"
+              name="price"
+              onChange={handleChange.bind(null, "Price")}
+              onBlur={handleBlur.bind(null, "Price")}
             />
-            <div>
-              {errors.Email && (
-                <div className="customer-error">{errors.Email}</div>
-              )}
-            </div>
-          </div>
-          <div className="lable-input  ic1">
-            <button className="submit">
-              <i className="fa fa-file"></i>Save Customer
-            </button>
+            {errors.Price && <div className="error">{errors.Price}</div>}
           </div>
         </div>
+        <div className="input-container label-and-error mb">
+          <div className="lable-input">
+            <Label label="Description" />
+            <TextArea
+              className={"description"}
+              label="Description"
+              id="Item_Description"
+              name="Item_Description"
+              value={Item_Description}
+              onChange={handleChange.bind(null, "Item_Description")}
+              onBlur={handleBlur.bind(null, "Description")}
+            />
+            {errors.Description && (
+              <div className="error ">{errors.Description}</div>
+            )}
+          </div>
+        </div>
+        <button className="submit-item">
+          {" "}
+          <i className="fa fa-file"></i>Save Item
+        </button>
       </form>
     </div>
   );
 };
-export default CustomerForm;
+export default ItemForm;

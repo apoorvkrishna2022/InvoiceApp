@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import '../Forms/BasicFormTemplet.css';
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
 
 const generateFormData = (fields) => {
     const formData = {};
@@ -16,17 +17,19 @@ const generateFormData = (fields) => {
     return formData;
   };
 
-const BasicFormTemplet=({onSubmit, fields, trigger, setTrigger, title, validation})=>{
+const BasicFormTemplet=({onSubmit, fields, title, validation, onClose})=>{
     
     
     const [formData, setFormData] = useState(generateFormData(fields));
 
     const handleSubmit = (ev) => {
         ev.preventDefault();
-        setTrigger(false)
+        
         const payload={};
         Object.values(formData).forEach((field)=>{
-            payload[field.name]=field.value
+            if(field.type=="number") payload[field.name] = parseInt(field.value);
+            else payload[field.name]=field.value;
+           
         });
         onSubmit(JSON.stringify(payload));
     };
@@ -50,13 +53,11 @@ const BasicFormTemplet=({onSubmit, fields, trigger, setTrigger, title, validatio
         });
       };
 
-      const handleCancle=()=>{
-        setTrigger(false);
-      }
+      
     
 
-    return trigger?(
-        <div className="page-background">
+    return (
+        
             <div className="form-background">
                 <p>{title}</p>
                 <br/>
@@ -85,18 +86,17 @@ const BasicFormTemplet=({onSubmit, fields, trigger, setTrigger, title, validatio
                         );
                     })}
                     <div className="form_button">
-                        {/* <Button button_name={"Save"} type={"submit"} onClick={handleSubmit}/>
-                        <Button button_name={"Cancle"} onClick={handleCancle}/> */}
-                        <button type="Submit">Submit</button>
-                        <input  type="button" value="Close" onClick={handleCancle}/>
+                        <Button button_name={"Save"} type={"submit"} />
+                        <Button button_name={"Cancle"} onClick={onClose}/>
+                        
                     </div>
 
                         
                     </form>
             </div>
 
-        </div>
-        ):"";
+        
+        );
     
 }
 
