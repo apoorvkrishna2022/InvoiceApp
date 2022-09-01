@@ -12,8 +12,8 @@ const initialState = {
   error: "",
 };
 
-export const fetchItemData = createAsyncThunk("fetchItemData", () => {
-  return getAllItems();
+export const fetchItemData = createAsyncThunk("fetchItemData", (currentPage) => {
+  return getAllItems(currentPage);
 });
 
 export const setItemData = createAsyncThunk("setItemData", (payload) => {

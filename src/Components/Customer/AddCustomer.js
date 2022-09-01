@@ -2,7 +2,7 @@ import React from "react";
 import BasicFormTemplet from "../Forms/BasicFormTemplet.js";
 
 import Modal from "../Modal/Modal.js";
-import { useSelector, useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import { setCustomerData, fetchData } from "../../Redux/CustomerSlice.js";
 
 

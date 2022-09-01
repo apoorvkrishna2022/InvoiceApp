@@ -2,10 +2,10 @@ import React from "react";
 import InvoiceForm from "../../Forms/InvoiceForm.js"
 
 
-const AddInvoice=({addInvoice, setTrigger})=>{
+const AddInvoice=({onClose})=>{
     return (
         <>
-            <InvoiceForm addInvoice={addInvoice} setTrigger={setTrigger}/>
+            <InvoiceForm onClose={onClose}/>
         </>
     );
 }

@@ -1,5 +1,5 @@
 
-import React, {useState, useContext} from "react";
+import React, {useState} from "react";
 
 import "../Forms/InvoiceForm.css";
 import BasicTemplet from "../BasicTemplet/BasicTemplet";
@@ -11,37 +11,19 @@ import ChooseItems from "../Invoice/AddInvoice/ChooseItems";
 
 
 
-const InvoiceForm=({addInvoice, setTrigger})=>{
-    const Data=useContext();
-    const {customerData, itemData}=Data;
-    const [chooseCust, setChooseCust]=useState({
-        status:false,
-        cust:undefined,
-    });
-
-    const [chooseItems, setChooseItems]=useState({
-        status:false,
-        Items:[],
-    });
-    const handleChooseCust=(e)=>{
-        setChooseCust({
-            ...chooseCust,
-            status:true,
-            
-        })
+const InvoiceForm=({onClose})=>{
+    
+    const handleChooseCustomer=(e)=>{
+        
     }
 
     const handleChooseItems=(e)=>{
-        setChooseItems({
-            ...chooseItems,
-            status:true,
-            
-        })
+        
     }
     const handleClose=()=>{
-        setTrigger(false);
+        onClose();
     }
-    return (addInvoice?
+    return (
         <>
             <div className="invoiceForm-container">
                 <BasicTemplet title={"NEW INVOICE"} btn={<Button onClick={handleClose} button_name={"+ SAVE Invoice"}/>}>
@@ -49,7 +31,7 @@ const InvoiceForm=({addInvoice, setTrigger})=>{
                         <div className="invoiceForm-body-header">
                             <div className="invoiceForm-body-header-left">
                                     <textarea row="10" col="10" placeholder="Enter Customer Here"></textarea>
-                                    <Button button_name={"Choose"} onClick={handleChooseCust}/>
+                                    <Button button_name={"Choose"} onClick={handleChooseCustomer}/>
                             </div>
                             <div className="invoiceForm-body-header-right">
                                 <div className="invoiceForm-body-header-right-top">
@@ -127,8 +109,8 @@ const InvoiceForm=({addInvoice, setTrigger})=>{
                 
             </div>
 
-            <ChooseCustomer data={customerData} chooseCust={chooseCust} setTrigger={setChooseCust}/>
-            <ChooseItems data={itemData} chooseItems={chooseItems} setTrigger={setChooseItems}/>
+            {/* <ChooseCustomer setTrigger={setChooseCust}/>
+            <ChooseItems {setChooseItems}/> */}
             
             
            
@@ -136,7 +118,7 @@ const InvoiceForm=({addInvoice, setTrigger})=>{
         </>
         
         
-        :""
+       
     );
 }
 export default InvoiceForm;

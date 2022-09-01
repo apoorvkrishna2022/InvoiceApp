@@ -1,6 +1,6 @@
 export const cusTableField = ["NAME", "PHONE", "EMAIL", "CREATED ON"];
 export const cusDataField = ["name", "phone_number", "email", "created_at"];
-export const  month = [
+export const month = [
   "Jan",
   "Feb",
   "Mar",
@@ -16,4 +16,20 @@ export const  month = [
 ];
 
 export const itemsTableField = ["NAME", "DISCRIPTION", "PRICE", "ADDED ON"];
-export const itemsDataField = ["Item_Name", "Item_Description", "Price", "created_at"];
+export const itemsDataField = [
+  "Item_Name",
+  "Item_Description",
+  "Price",
+  "created_at",
+];
+
+export const invoiceDataField = [
+  "CreatedAt",
+  "CustomerName",
+  "InvoiceId",
+  "PaidStatus",
+  "TotalAmount",
+  "AmountDue",
+];
+
+export const invoiceTableField=["Data", "Customer", "Number", "Paid Status", "Amount", "Amount Due"];

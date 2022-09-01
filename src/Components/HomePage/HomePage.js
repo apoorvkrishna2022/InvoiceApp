@@ -13,6 +13,8 @@ import { Temp } from "../../Temp/Temp";
 
 const HomePage=()=>{
     
+    
+    
     return (
         <BrowserRouter>
             <div className="main-screen">

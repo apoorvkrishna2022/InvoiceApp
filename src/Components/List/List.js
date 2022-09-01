@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./List.css";
 
 const List = ({ data, field }) => {
@@ -11,10 +11,10 @@ const List = ({ data, field }) => {
           })}
         </tr>
       </thead>
-      <tbody>
-        {data.map((item) => {
+      <tbody data-testid="list-body">
+        {data.map((item, index) => {
           return (
-            <tr>
+            <tr key={index + 1}>
               {Object.values(item).map((temp, index) => (
                 <td key={index + 1} className="tabe-data">
                   {temp}

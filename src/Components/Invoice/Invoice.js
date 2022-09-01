@@ -1,45 +1,55 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 
-import BasicTemplet from '../BasicTemplet/BasicTemplet.js';
+import BasicTemplet from "../BasicTemplet/BasicTemplet.js";
 import List from "../List/List.js";
 import Button from "../Button/Button.js";
 import AddInvoice from "./AddInvoice/AddInvoice.js";
+import { invoiceTableField } from "../../globalVariables.js";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchInvoiceData } from "../../Redux/InvoiceSlice.js";
+import { Pagination } from "../../Pagination/Pagination.js";
 
+const Invoice = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const invoice = useSelector((state) => state.invoice);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchInvoiceData());
+  }, [currentPage]);
 
-const invoiceData=[
-    {date:"12/23/2022", customer:"apoorv", number:"INV00", padi_status:"Issued", amount:"23", amount_due:"12"},
-    {date:"12/23/2022", customer:"apoorv", number:"INV00", padi_status:"Issued", amount:"23", amount_due:"12"},
-    {date:"12/23/2022", customer:"apoorv", number:"INV00", padi_status:"Issued", amount:"23", amount_due:"12"},
-    {date:"12/23/2022", customer:"apoorv", number:"INV00", padi_status:"Issued", amount:"23", amount_due:"12"},
+  console.log("invoices list", invoice.invoices);
+  const [addInvoice, setAddInvoice] = useState(false);
 
-    
-];
-const invoiceField=['DATE','CUSTOMER', 'NUMBER', 'PAID STATUS', 'AMOUNT', 'AMOUNT DUE'];
+  const clickAdd = (e) => {
+    setAddInvoice(true);
+  };
+  const clickClose = (e) => {
+    setAddInvoice(false);
+  };
+  let totalPage = Math.ceil(invoice.invoices.length / 10);
+  let lower=(currentPage-1)*10;
+  let upper=Math.min(currentPage*10, invoice.invoices.length)
 
-const Invoice =()=>{
-    const [addInvoice, setAddInvoice]=useState(false);
+  return (
+    <>
+      <BasicTemplet
+        title={"Invoices"}
+        btn={<Button button_name={"+ ADD Invoice"} onClick={clickAdd} />}
+      >
+        <List
+          data={invoice.invoices.slice(lower, upper)}
+          field={invoiceTableField}
+        />
+      </BasicTemplet>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPage={totalPage}
+      />
 
-    const clickAddInvoice=(e)=>{
-        setAddInvoice(true);
-    }
-   
-
-    return (
-        <>
-        
-        <BasicTemplet title={"Invoices"} btn={<Button button_name={"+ ADD Invoice"} onClick={clickAddInvoice}/>}>
-            <List data={invoiceData} field={invoiceField}/>
-        </BasicTemplet>
-
-        <AddInvoice addInvoice={addInvoice} setTrigger={setAddInvoice}/>
-
-        
-        </>
-            
-            
-       
-       
-    );
-        
-}
+      {addInvoice ? <AddInvoice onClose={clickClose} /> : null}
+    </>
+  );
+};
 export default Invoice;
