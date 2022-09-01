@@ -48,9 +48,9 @@ const Customer = () => {
         {!customer.loading && customer.error ? (
           <div>Error: {customer.error}</div>
         ) : null}
-        {!customer.loading && customer.users.length ? (
+        {!customer.loading && customer.data.hasOwnProperty(currentPage) ? (
           <List data={customer.data[currentPage]} field={cusTableField} />
-        ) : null}
+         ): null}
       </BasicTemplet>
       <Pagination
         currentPage={currentPage}
